@@ -1,22 +1,21 @@
 Name:		liblognorm
-Version:	0.3.4
-Release:	4%{?dist}
+Version:	0.3.5
+Release:	1%{?dist}
 Summary:	Fast samples-based log normalization library
 
 License:	LGPLv2+
 URL:		http://www.liblognorm.com
 Source0:	http://www.liblognorm.com/files/download/%{name}-%{version}.tar.gz
-Patch0:		liblognorm-0.3.4-rename-to-lognormalizer.patch
 Patch1:		liblognorm-0.3.4-pc-file.patch
 
 BuildRequires:	libestr-devel, libee-devel, chrpath
 
 %description
-Briefly described, liblognorm is a tool to normalize log data. 
+Briefly described, liblognorm is a tool to normalize log data.
 
 People who need to take a look at logs often have a common problem. Logs from
-different machines (from different vendors) usually have different formats for 
-their logs. Even if it is the same type of log (e.g. from firewalls), the log 
+different machines (from different vendors) usually have different formats for
+their logs. Even if it is the same type of log (e.g. from firewalls), the log
 entries are so different, that it is pretty hard to read these. This is where
 liblognorm comes into the game. With this tool you can normalize all your logs.
 All you need is liblognorm and its dependencies and a sample database that fits
@@ -41,7 +40,6 @@ log files.
 
 %prep
 %setup -q
-%patch0 -p1 -b .rename-to-lognormalizer.patch
 %patch1 -p1 -b .pc-file.patch
 
 %build
@@ -72,8 +70,14 @@ chrpath -d %{buildroot}/%{_libdir}/liblognorm.so.0.0.0
 
 
 %changelog
+* Wed Dec 12 2012 Mahaveer Darade <mah.darade@gmail.com> - 0.3.5-1
+- upgrade to upstream version 0.3.5
+- drop patch0, merged upstream
+  liblognorm-0.3.4-rename-to-lognormalizer.patch
+- remove trailing whitespace
+
 * Fri Oct 05 2012 mdarade <mdarade@redhat.com> - 0.3.4-4
-- Modified description of main & util package 
+- Modified description of main & util package
 
 * Thu Sep 20 2012 Mahaveer Darade <mdarade@redhat.com> - 0.3.4-3
 - Renamed normalizer binary to lognormalizer
