@@ -1,5 +1,5 @@
 Name:		liblognorm
-Version:	0.3.5
+Version:	0.3.7
 Release:	1%{?dist}
 Summary:	Fast samples-based log normalization library
 
@@ -70,6 +70,9 @@ chrpath -d %{buildroot}/%{_libdir}/liblognorm.so.0.0.0
 
 
 %changelog
+* Wed Jul 31 2013 Tomas Heinrich <theinric@redhat.com> - 0.3.7-1
+- rebase to 0.3.7
+
 * Wed Dec 12 2012 Mahaveer Darade <mah.darade@gmail.com> - 0.3.5-1
 - upgrade to upstream version 0.3.5
 - drop patch0, merged upstream
