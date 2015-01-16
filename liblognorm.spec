@@ -1,14 +1,17 @@
-Name:		liblognorm
-Version:	0.3.7
-Release:	3%{?dist}
-Summary:	Fast samples-based log normalization library
+%define htmldir %{_docdir}/liblognorm/html
 
+Name:		liblognorm
+Version:	1.1.1
+Release:	1%{?dist}
+Summary:	Fast samples-based log normalization library
 License:	LGPLv2+
 URL:		http://www.liblognorm.com
 Source0:	http://www.liblognorm.com/files/download/%{name}-%{version}.tar.gz
-Patch1:		liblognorm-0.3.4-pc-file.patch
 
-BuildRequires:	libestr-devel, libee-devel, chrpath
+BuildRequires:	chrpath
+BuildRequires:	json-c-devel
+BuildRequires:	libestr-devel
+BuildRequires:	pcre-devel
 
 %description
 Briefly described, liblognorm is a tool to normalize log data.
@@ -24,11 +27,20 @@ the logs you want to normalize.
 %package devel
 Summary:	Development tools for programs using liblognorm library
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	libee-devel%{?_isa} libestr-devel%{?_isa}
+Requires:	json-c-devel%{?_isa}
+Requires:	libestr-devel%{?_isa}
 
 %description devel
 The liblognorm-devel package includes header files, libraries necessary for
 developing programs which use liblognorm library.
+
+%package doc
+Summary: HTML documentation for liblognorm
+Group: Documentation
+BuildRequires: python-sphinx
+
+%description doc
+This sub-package contains documentation for liblognorm in a HTML form.
 
 %package utils
 Summary:	Lognormalizer utility for normalizing log files
@@ -40,24 +52,32 @@ log files.
 
 %prep
 %setup -q
-%patch1 -p1 -b .pc-file.patch
 
 %build
-%configure
+%configure \
+	--docdir=%{htmldir} \
+	--enable-docs \
+	--enable-regexp \
+
 V=1 make
 
 %install
-make install INSTALL="install -p" DESTDIR=%{buildroot}
+make V=1 install INSTALL="install -p" DESTDIR=%{buildroot}
 rm -f %{buildroot}/%{_libdir}/*.{a,la}
-chrpath -d %{buildroot}/%{_bindir}/lognormalizer
-chrpath -d %{buildroot}/%{_libdir}/liblognorm.so.0.0.0
+chrpath -d %{buildroot}%{_bindir}/lognormalizer
+chrpath -d %{buildroot}%{_libdir}/liblognorm.so
+rm %{buildroot}%{htmldir}/{objects.inv,.buildinfo}
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
-%doc AUTHORS ChangeLog COPYING NEWS README
+%{!?_licensedir:%global license %%doc}
+%license COPYING
+%doc AUTHORS ChangeLog README
+%exclude %{htmldir}
+
 %{_libdir}/lib*.so.*
 
 %files devel
@@ -65,11 +85,22 @@ chrpath -d %{buildroot}/%{_libdir}/liblognorm.so.0.0.0
 %{_includedir}/*.h
 %{_libdir}/pkgconfig/*.pc
 
+%files doc
+%doc %{htmldir}
+
 %files utils
 %{_bindir}/lognormalizer
 
 
 %changelog
+* Sun Mar 15 2015 Tomas Heinrich <theinric@redhat.com> - 1.1.1-1
+- rebase to 1.1.1 (soname bump)
+  - drop liblognorm-0.3.4-pc-file.patch, not needed anymore
+  - update dependencies for the new version
+  - add a new subpackage for documentation
+  - enable support for reqular expressions
+- make build more verbose
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
