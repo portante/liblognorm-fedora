@@ -1,0 +1,26 @@
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+index d8b8aaa..29d9a07 100644
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -13,7 +13,7 @@ built_html = _build/html
+ #
+ 
+ # You can set these variables from the command line.
+-SPHINXOPTS    = -n -W -c $(srcdir)
++SPHINXOPTS    = -W -c $(srcdir)
+ #SPHINXBUILD   = sphinx-build
+ PAPER         =
+ BUILDDIR      = _build
+diff --git a/doc/conf.py b/doc/conf.py
+index f706ef4..7654e1c 100644
+--- a/doc/conf.py
++++ b/doc/conf.py
+@@ -91,7 +91,7 @@ pygments_style = 'sphinx'
+ 
+ # The theme to use for HTML and HTML Help pages.  See the documentation for
+ # a list of builtin themes.
+-html_theme = 'haiku'
++html_theme = 'traditional'
+ 
+ # Theme options are theme-specific and customize the look and feel of a theme
+ # further.  For a list of options available for each theme, see the

@@ -1,17 +1,23 @@
 %define htmldir %{_docdir}/liblognorm/html
 
 Name:		liblognorm
-Version:	1.1.1
-Release:	3%{?dist}
+Version:	1.1.3
+Release:	0%{?dist}
 Summary:	Fast samples-based log normalization library
 License:	LGPLv2+
 URL:		http://www.liblognorm.com
 Source0:	http://www.liblognorm.com/files/download/%{name}-%{version}.tar.gz
-
-BuildRequires:	chrpath
-BuildRequires:	json-c-devel
-BuildRequires:	libestr-devel
-BuildRequires:	pcre-devel
+%if 0%{?rhel} >= 0 && 0%{?rhel} <= 7
+Patch0:         fix-el6-builds.patch
+%endif
+BuildRequires: autoconf
+BuildRequires: automake
+BuildRequires: libtool
+BuildRequires: libestr-devel
+BuildRequires: libee-devel
+BuildRequires: chrpath
+BuildRequires: json-c-devel
+BuildRequires: pcre-devel
 
 %description
 Briefly described, liblognorm is a tool to normalize log data.
@@ -27,8 +33,7 @@ the logs you want to normalize.
 %package devel
 Summary:	Development tools for programs using liblognorm library
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	json-c-devel%{?_isa}
-Requires:	libestr-devel%{?_isa}
+Requires:	libee-devel%{?_isa} libestr-devel%{?_isa}
 
 %description devel
 The liblognorm-devel package includes header files, libraries necessary for
@@ -52,8 +57,12 @@ log files.
 
 %prep
 %setup -q
+%if 0%{?rhel} >= 0 && 0%{?rhel} <= 7
+%patch0 -p1
+%endif
 
 %build
+autoreconf -ifv
 %configure \
 	--docdir=%{htmldir} \
 	--enable-docs \
@@ -93,6 +102,9 @@ rm %{buildroot}%{htmldir}/{objects.inv,.buildinfo}
 
 
 %changelog
+* Fri Mar 24 2016 Peter Portante <pportant@redhat.com> - 1.1.3-0
+- rebase to 1.1.3
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
