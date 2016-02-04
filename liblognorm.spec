@@ -2,7 +2,7 @@
 
 Name:		liblognorm
 Version:	1.1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Fast samples-based log normalization library
 License:	LGPLv2+
 URL:		http://www.liblognorm.com
@@ -93,6 +93,9 @@ rm %{buildroot}%{htmldir}/{objects.inv,.buildinfo}
 
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
